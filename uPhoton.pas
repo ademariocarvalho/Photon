@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Menus,
-  Vcl.ExtDlgs;
+  Vcl.ExtDlgs, SynPdf, jpeg, ShellAPI, Vcl.ComCtrls;
 
 type
   TForm1 = class(TForm)
@@ -30,6 +30,13 @@ type
     Button2: TButton;
     Button3: TButton;
     Button4: TButton;
+    Button5: TButton;
+    SaveDialog1: TSaveDialog;
+    CheckBox1: TCheckBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    ProgressBar1: TProgressBar;
+    StatusBar1: TStatusBar;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -37,6 +44,9 @@ type
     procedure Abrir1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
   private
     { Private declarations }
   public
@@ -133,7 +143,7 @@ begin
   Bitmap := TBitmap.Create;
   Bitmap.LoadFromFile('C:\Users\Ademario\PycharmProjects\FinalFantasy\pcb300.bmp');
   Form1.image1.Canvas.BrushCopy(MyOther, Bitmap,MyRect, clBlack);
-  Form1.Canvas.CopyRect(MyOther,Bitmap.Canvas,MyRect);
+  //Form1.Canvas.CopyRect(MyOther,Bitmap.Canvas,MyRect);
   Bitmap.Free;
 end;
 
@@ -141,9 +151,12 @@ procedure TForm1.Button4Click(Sender: TObject);
 var
   x,y: Integer;
 begin
-  for y := 0 to 766-66 do
+  ProgressBar1.BarColor:=clBlue;
+  ProgressBar1.Visible:=true;
+  ProgressBar1.Max := 700; //700*1184;
+  for y := 0 to 700 do
   begin
-    for x := 0 to 1280-96 do
+    for x := 0 to 1184 do
     begin
       if Image1.Canvas.Pixels[x,y]=clWhite then
       begin
@@ -154,6 +167,50 @@ begin
         Image1.Canvas.Pixels[x,y]:=clWhite;
       end;
     end;
+    ProgressBar1.Position := y; //x*y;
+  end;
+  ProgressBar1.Visible:=false;
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+var
+  lpdf: TPdfDocument;
+  lpage: TPdfPage;
+  //bitmapimage: TBitmapImage;
+  bitmapimage: TJPEGImage;
+  pdfimage: TPdfImage;
+  k:Real;
+  a,l:Integer;
+begin
+  if SaveDialog1.Execute() then
+  begin
+    lpdf:= TPdfDocument.Create();
+    try
+      k:=0.239271255;
+      l:=Image1.Picture.Graphic.Width;
+      a:=Image1.Picture.Graphic.Height;
+      lpdf.DefaultPaperSize:=psA4;
+      lpdf.DefaultPageLandscape:=CheckBox1.Checked;
+      lpage:=lpdf.AddPage;
+      bitmapimage:=TJPEGImage.Create;
+      bitmapimage.Assign(Image1.Picture.Graphic);
+
+      pdfimage:=TPdfImage.Create(lPDF,bitmapimage,true);
+      lPDF.Canvas.Doc.AddXObject('Image1',pdfimage);
+      //lPDF.Canvas.DrawXObject(10,lPage.PageHeight*k-bitmapimage.Height*k,bitmapimage.Width*k,bitmapimage.Height*k,'Image1');
+      //lPDF.Canvas.DrawXObject(300,(lPage.PageHeight-bitmapimage.Height)*k,bitmapimage.Width*k,bitmapimage.Height*k,'Image1');
+      lPDF.Canvas.DrawXObject(25,0,bitmapimage.Width*k,bitmapimage.Height*k,'Image1');
+      //lpdf.Canvas.Doc.AddXObject()
+      //lPDF.Canvas.DrawXObject(10,700,bitmapimage.Width*k,bitmapimage.Height,'Image1');
+      lPDF.SaveToFile(SaveDialog1.FileName+'.pdf');
+      ShellExecute(Handle,'open',PChar(SaveDialog1.FileName+'.pdf'),nil, nil,SW_SHOWNORMAL);
+
+      Edit1.Text:=lpage.PageWidth.ToString +' - '+bitmapimage.Width.ToString;
+      Edit2.Text:=lpage.PageHeight.ToString +' - '+bitmapimage.Height.ToString;;
+
+    finally
+      lpdf.Free;
+    end;
   end;
 end;
 
@@ -162,6 +219,17 @@ begin
   Image1.Canvas.Refresh;
   lbLargura.Caption:='Largura: ' + IntToStr(Image1.Width);
   lbAltura.Caption:='Altura: ' + IntToStr(Image1.Height);
+end;
+
+procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+  var
+    l, a : string;
+begin
+  StatusBar1.Panels.Items[0].Width:=200;
+  l := Image1.Width.ToString;
+  a := Image1.Height.ToString;
+  StatusBar1.Panels.Items[0].Text:=' Dimensão da imagem ['+ l +'X'+ a+']';
 end;
 
 procedure TForm1.Sair1Click(Sender: TObject);
