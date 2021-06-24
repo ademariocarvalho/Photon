@@ -5,7 +5,9 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Menus,
-  Vcl.ExtDlgs, SynPdf, jpeg, ShellAPI, Vcl.ComCtrls;
+  Vcl.ExtDlgs, SynPdf, jpeg, ShellAPI, Vcl.ComCtrls, System.Win.TaskbarCore,
+  Vcl.Taskbar, System.ImageList, Vcl.ImgList, VCLTee.TeCanvas, VCLTee.TeePenDlg,
+  VCLTee.TeeFilters;
 
 type
   TForm1 = class(TForm)
@@ -37,7 +39,10 @@ type
     Edit2: TEdit;
     ProgressBar1: TProgressBar;
     StatusBar1: TStatusBar;
-    procedure Button1Click(Sender: TObject);
+    ImageFiltered1: TImageFiltered;
+    ButtonPen1: TButtonPen;
+    ButtonPen2: TButtonPen;
+    CheckBox2: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -47,6 +52,9 @@ type
     procedure Button5Click(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
+    procedure Button1Click(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
+    procedure ButtonPen2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -76,51 +84,47 @@ begin
       raise Exception.Create('Arquivo não existente.');
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
-//var
-  //MyRect, MyOther: TRect;
-  //Bitmap: TBitmap;
+procedure buscar_borda(img: TImage);
 begin
-  mx := Trunc(Image1.Width / 2);
-  my := Trunc(Image1.Height / 2);
+  mx := Trunc(img.Width / 2);
+  my := Trunc(img.Height / 2);
   Form1.Caption := 'Photon by Eletron [ mx:'+ IntToStr(mx) +'- my:'+ IntToStr(my)+']';
-  for l := 0 to Image1.Width do
+  for l := 0 to img.Width do
   begin
-    if Image1.Canvas.Pixels[l, my]=clWhite then Break;
+    if img.Canvas.Pixels[l, my]=clWhite then Break;
   end;
 
-  for t := 0 to Image1.Height do
+  for t := 0 to img.Height do
   begin
-    if Image1.Canvas.Pixels[mx, t]=clWhite then Break;
+    if img.Canvas.Pixels[mx, t]=clWhite then Break;
   end;
 
-  for b := Image1.Height downto 0 do
+  for b := img.Height downto 0 do
   begin
-    if Image1.Canvas.Pixels[mx, b]=clWhite then Break;
+    if img.Canvas.Pixels[mx, b]=clWhite then Break;
   end;
 
-  for r := Image1.Width downto 0 do
+  for r := img.Width downto 0 do
   begin
-    if Image1.Canvas.Pixels[r, my]=clWhite then Break;
+    if img.Canvas.Pixels[r, my]=clWhite then Break;
   end;
 
-  //ShowMessage('Esq.: ' + IntToStr(l) + ' Sup.: ' + IntToStr(t) + ' Dir.: ' + IntToStr(r) + ' Inf.: ' + IntToStr(b) );
+  ShowMessage('Esq.: ' + IntToStr(l) + ' Sup.: ' + IntToStr(t) + ' Dir.: ' + IntToStr(r) + ' Inf.: ' + IntToStr(b) );
 
-  MyRect := Rect(l,t,r,b);
-  MyOther := Rect(l-l,t-t,r-l,b-t);
-  Bitmap := TBitmap.Create;
-  Bitmap.LoadFromFile(OpenPictureDialog1.FileName);
+  //MyRect := Rect(l,t,r,b);
+  //MyOther := Rect(l-l,t-t,r-l,b-t);
+  //Bitmap := TBitmap.Create;
+  //Bitmap.Canvas.Brush:=img.Canvas.Brush;
+  //Bitmap:=img.Picture.Bitmap; //.LoadFromFile();
   //Form1.image1.Canvas.BrushCopy(MyRect, Bitmap, MyRect, clBlack);
-  Form1.image1.Canvas.BrushCopy(MyOther, Bitmap, MyRect, clBlack);
-  Bitmap.Free;
-  //Image1.Canvas.Brush.Color:=clWindow;
-  //Image1.Canvas.Pen.Color:=clGreen;
-  //Image1.Canvas.Pen.Width:=20;
-  //Image1.Canvas.MoveTo(100,100);
-  //Image1.Canvas.LineTo(200,200);
-  //Image1.Canvas.Rectangle(200,200,500,350);
+  //Form1.image1.Canvas.BrushCopy(MyOther, Bitmap, MyRect, clBlack);
+  //Bitmap.Free;
 
+end;
 
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  buscar_borda(Image1);
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -151,7 +155,7 @@ procedure TForm1.Button4Click(Sender: TObject);
 var
   x,y: Integer;
 begin
-  ProgressBar1.BarColor:=clBlue;
+  //ProgressBar1.BarColor:=clBlue;
   ProgressBar1.Visible:=true;
   ProgressBar1.Max := 700; //700*1184;
   for y := 0 to 700 do
@@ -200,6 +204,7 @@ begin
       //lPDF.Canvas.DrawXObject(10,lPage.PageHeight*k-bitmapimage.Height*k,bitmapimage.Width*k,bitmapimage.Height*k,'Image1');
       //lPDF.Canvas.DrawXObject(300,(lPage.PageHeight-bitmapimage.Height)*k,bitmapimage.Width*k,bitmapimage.Height*k,'Image1');
       lPDF.Canvas.DrawXObject(25,0,bitmapimage.Width*k,bitmapimage.Height*k,'Image1');
+      //lPDF.Canvas.DrawXObjectEx(25,0,bitmapimage.Width*k,bitmapimage.Height*k,l,t,l-r,t-b,'Image1');
       //lpdf.Canvas.Doc.AddXObject()
       //lPDF.Canvas.DrawXObject(10,700,bitmapimage.Width*k,bitmapimage.Height,'Image1');
       lPDF.SaveToFile(SaveDialog1.FileName+'.pdf');
@@ -214,11 +219,38 @@ begin
   end;
 end;
 
+procedure TForm1.ButtonPen2Click(Sender: TObject);
+begin
+  //ImageFiltered1.Filters[0].Apply(Image1.Picture.Bitmap);
+end;
+
+procedure TForm1.CheckBox2Click(Sender: TObject);
+begin
+  //ImageFiltered1.Filters.Item[0]=100;
+    ImageFiltered1.Filters[0].Enabled:=True;
+    ImageFiltered1.Filters[0].Region.Left:=0;
+    ImageFiltered1.Filters[0].Region.Top:=0;
+    ImageFiltered1.Filters[0].Region.Width:=0;
+    ImageFiltered1.Filters[0].Region.Height:=0;
+    //Image1.Picture.Graphic:=ImageFiltered1.Filtered;
+    ImageFiltered1.Repaint;
+    ImageFiltered1.Refresh;
+
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   Image1.Canvas.Refresh;
   lbLargura.Caption:='Largura: ' + IntToStr(Image1.Width);
   lbAltura.Caption:='Altura: ' + IntToStr(Image1.Height);
+      ImageFiltered1.Filters[0].Enabled:=CheckBox1.Checked;
+    ImageFiltered1.Filters[0].Region.Left:=0;
+    ImageFiltered1.Filters[0].Region.Top:=0;
+    ImageFiltered1.Filters[0].Region.Width:=0;
+    ImageFiltered1.Filters[0].Region.Height:=0;
+    ImageFiltered1.Repaint;
+    ImageFiltered1.Refresh;
+    ImageFiltered1.Filtered;
 end;
 
 procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -230,6 +262,11 @@ begin
   l := Image1.Width.ToString;
   a := Image1.Height.ToString;
   StatusBar1.Panels.Items[0].Text:=' Dimensão da imagem ['+ l +'X'+ a+']';
+  l := x.ToString;
+  a := y.ToString;
+  StatusBar1.Panels.Items[1].Text:='('+ l +','+ a+')';
+
+
 end;
 
 procedure TForm1.Sair1Click(Sender: TObject);
