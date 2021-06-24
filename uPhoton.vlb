@@ -49,9 +49,6 @@ Coordinates=10,78,59,58
 [Sobre1]
 Coordinates=388,298,56,36
 
-[MetodoTrmico1]
-Coordinates=540,166,104,36
-
 [Image1]
 Coordinates=10,146,57,58
 
@@ -76,10 +73,13 @@ Coordinates=250,365,40,36
 [Abrir1]
 Coordinates=191,365,49,36
 
-[Mtodofotogrfico1]
-Coordinates=72,372,111,36
-
 []
 Coordinates=79,78,78,58
 Visible=True
+
+[MetodoTermico1]
+Coordinates=540,166,104,36
+
+[Metodofotografico1]
+Coordinates=72,372,111,36
 

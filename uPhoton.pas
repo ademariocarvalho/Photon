@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Menus,
   Vcl.ExtDlgs, SynPdf, jpeg, ShellAPI, Vcl.ComCtrls, System.Win.TaskbarCore,
   Vcl.Taskbar, System.ImageList, Vcl.ImgList, VCLTee.TeCanvas, VCLTee.TeePenDlg,
-  VCLTee.TeeFilters;
+  VCLTee.TeeFilters, VCLTee.TeeFiltersEditor;
 
 type
   TForm1 = class(TForm)
@@ -21,8 +21,8 @@ type
     N1: TMenuItem;
     Sair1: TMenuItem;
     Processar1: TMenuItem;
-    MetodoTrmico1: TMenuItem;
-    Mtodofotogrfico1: TMenuItem;
+    MetodoTermico1: TMenuItem;
+    Metodofotografico1: TMenuItem;
     Ajuda1: TMenuItem;
     Sobre1: TMenuItem;
     Panel1: TPanel;
@@ -55,6 +55,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure CheckBox2Click(Sender: TObject);
     procedure ButtonPen2Click(Sender: TObject);
+    procedure ButtonPen1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -219,20 +220,35 @@ begin
   end;
 end;
 
+procedure TForm1.ButtonPen1Click(Sender: TObject);
+begin
+if ShowFiltersEditor(Self, ImageFiltered1.Picture.Graphic,
+                       ImageFiltered1.Filters) then
+  begin
+    ImageFiltered1.Invalidate;
+  end;
+end;
+
 procedure TForm1.ButtonPen2Click(Sender: TObject);
 begin
   //ImageFiltered1.Filters[0].Apply(Image1.Picture.Bitmap);
+  Image1.Picture.Graphic:=ImageFiltered1.Filtered;
+  Image1.Proportional:=true;
+  ImageFiltered1.Proportional:=true;
+  //ImageFiltered1.Transparent:=true;
+
 end;
 
 procedure TForm1.CheckBox2Click(Sender: TObject);
 begin
   //ImageFiltered1.Filters.Item[0]=100;
-    ImageFiltered1.Filters[0].Enabled:=True;
-    ImageFiltered1.Filters[0].Region.Left:=0;
-    ImageFiltered1.Filters[0].Region.Top:=0;
-    ImageFiltered1.Filters[0].Region.Width:=0;
-    ImageFiltered1.Filters[0].Region.Height:=0;
+    ImageFiltered1.Filters[0].Enabled:=CheckBox1.Checked;
+    //ImageFiltered1.Filters[0].Region.Left:=100;
+    //ImageFiltered1.Filters[0].Region.Top:=100;
+    //ImageFiltered1.Filters[0].Region.Width:=100;
+    //ImageFiltered1.Filters[0].Region.Height:=100;
     //Image1.Picture.Graphic:=ImageFiltered1.Filtered;
+    ImageFiltered1.Invalidate;
     ImageFiltered1.Repaint;
     ImageFiltered1.Refresh;
 
