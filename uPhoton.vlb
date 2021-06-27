@@ -1,12 +1,6 @@
 ﻿[A1]
 Coordinates=154,269,40,36
 
-[Button1]
-Coordinates=236,78,59,58
-
-[Panel1]
-Coordinates=249,146,55,58
-
 [MainMenu1]
 Coordinates=388,78,81,36
 
@@ -16,50 +10,17 @@ Coordinates=299,372,88,36
 [OpenPictureDialog1]
 Coordinates=540,1,130,36
 
-[Edit2]
-Coordinates=133,10,44,58
-
-[Edit1]
-Coordinates=79,10,44,58
-
-[CheckBox1]
-Coordinates=187,10,114,58
-
-[lbLargura]
-Coordinates=311,10,69,58
-
 [Ajuda1]
 Coordinates=95,269,55,36
-
-[lbAltura]
-Coordinates=10,10,59,58
 
 [Salvar1]
 Coordinates=36,269,58,36
 
-[Button5]
-Coordinates=180,146,59,58
-
 [Processar1]
 Coordinates=540,56,79,36
 
-[Button4]
-Coordinates=10,78,59,58
-
 [Sobre1]
 Coordinates=388,298,56,36
-
-[Image1]
-Coordinates=10,146,57,58
-
-[ScrollBox1]
-Coordinates=314,146,76,36
-
-[Button3]
-Coordinates=305,78,59,58
-
-[Button2]
-Coordinates=167,78,59,58
 
 [Sair1]
 Coordinates=388,353,45,36
@@ -74,7 +35,7 @@ Coordinates=250,365,40,36
 Coordinates=191,365,49,36
 
 []
-Coordinates=79,78,78,58
+Coordinates=249,146,55,58
 Visible=True
 
 [MetodoTermico1]
