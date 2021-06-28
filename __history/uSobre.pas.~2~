@@ -1,0 +1,31 @@
+unit uSobre;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons;
+
+type
+  TfrmSobre = class(TForm)
+    SpeedButton1: TSpeedButton;
+    procedure SpeedButton1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSobre: TfrmSobre;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmSobre.SpeedButton1Click(Sender: TObject);
+begin
+  close;
+end;
+
+end.

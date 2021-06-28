@@ -1,0 +1,29 @@
+object frmSobre: TfrmSobre
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'Sobre o Photon'
+  ClientHeight = 375
+  ClientWidth = 463
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object SpeedButton1: TSpeedButton
+    Left = 0
+    Top = 333
+    Width = 463
+    Height = 42
+    Align = alBottom
+    Caption = 'OK'
+    OnClick = SpeedButton1Click
+    ExplicitTop = 304
+    ExplicitWidth = 457
+  end
+end

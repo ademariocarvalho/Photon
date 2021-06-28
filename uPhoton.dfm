@@ -12,6 +12,7 @@ object frmPrincipal: TfrmPrincipal
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  Touch.GestureManager = GestureManager1
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -797,8 +798,9 @@ object frmPrincipal: TfrmPrincipal
         Color = clMedGray
         ParentColor = False
         TabOrder = 1
+        ExplicitTop = -2
         object Image1: TImage
-          Left = 3
+          Left = 4
           Top = 3
           Width = 343
           Height = 244
@@ -1002,6 +1004,7 @@ object frmPrincipal: TfrmPrincipal
       Caption = 'Ajuda'
       object Sobre1: TMenuItem
         Caption = 'Sobre'
+        OnClick = Sobre1Click
       end
     end
   end
@@ -1041,6 +1044,21 @@ object frmPrincipal: TfrmPrincipal
       Hint = 'Copy|Copies the selection and puts it on the Clipboard'
       ImageIndex = 3
       ShortCut = 16451
+    end
+    object PreviousTab1: TPreviousTab
+      TabControl = PageControl1
+      Caption = '&Previous'
+      Enabled = False
+      Hint = 'Previous|Go back to the previous tab'
+    end
+    object NextTab1: TNextTab
+      TabControl = PageControl1
+      Caption = '&Next'
+      Enabled = False
+      Hint = 'Next|Go to the next tab'
+    end
+    object Action1: TAction
+      Caption = 'Action1'
     end
   end
   object ImageList1: TImageList
@@ -3756,5 +3774,25 @@ object frmPrincipal: TfrmPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000
       000000000000}
+  end
+  object GestureManager1: TGestureManager
+    Left = 421
+    Top = 185
+    GestureData = <
+      item
+        Control = Owner
+        Collection = <
+          item
+            Action = PreviousTab1
+            GestureID = sgiLeft
+          end
+          item
+            Action = NextTab1
+            GestureID = sgiRight
+          end
+          item
+            GestureID = sgiDoubleCircle
+          end>
+      end>
   end
 end

@@ -9,7 +9,7 @@ uses
   Vcl.Taskbar, System.ImageList, Vcl.ImgList, VCLTee.TeCanvas, VCLTee.TeePenDlg,
   VCLTee.TeeFilters, VCLTee.TeeFiltersEditor, Vcl.Imaging.pngimage, Vcl.ToolWin,
   Vcl.StdActns, Vcl.ActnList, System.Actions, Vcl.Buttons, PngSpeedButton,
-  IniFiles;
+  IniFiles, Vcl.ExtActns, Vcl.Touch.GestureMgr;
 
 type
   TfrmPrincipal = class(TForm)
@@ -79,6 +79,10 @@ type
     tbConfig: TToolButton;
     tbSuporte: TToolButton;
     edtConfig: TEdit;
+    GestureManager1: TGestureManager;
+    PreviousTab1: TPreviousTab;
+    NextTab1: TNextTab;
+    Action1: TAction;
     procedure FormCreate(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -104,6 +108,7 @@ type
     procedure ToolButton5Click(Sender: TObject);
     procedure tbConfigClick(Sender: TObject);
     procedure tbSuporteClick(Sender: TObject);
+    procedure Sobre1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -120,6 +125,7 @@ var
 
 
 implementation
+uses uSobre;
 
 {$R *.dfm}
 procedure TfrmPrincipal.buscar_borda(img: TImage);
@@ -424,6 +430,19 @@ end;
 procedure TfrmPrincipal.Sair1Click(Sender: TObject);
 begin
   Close();
+end;
+
+procedure TfrmPrincipal.Sobre1Click(Sender: TObject);
+begin
+  if not Assigned(frmSobre) then
+  begin
+    frmSobre := TfrmSobre.Create(self);
+  end;
+  try
+    frmSobre.ShowModal;
+  finally
+    FreeAndNil(frmSobre); // libera memória
+  end;
 end;
 
 procedure TfrmPrincipal.tbAbrirClick(Sender: TObject);
