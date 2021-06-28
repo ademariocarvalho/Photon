@@ -1,4 +1,4 @@
-object Form1: TForm1
+object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
   Caption = 'Photon by Eletron'
@@ -30,11 +30,8 @@ object Form1: TForm1
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 67
     object TabSheet1: TTabSheet
       Caption = 'Image'
-      ExplicitWidth = 754
-      ExplicitHeight = 521
       object ScrollBox2: TScrollBox
         Left = 0
         Top = 0
@@ -44,7 +41,6 @@ object Form1: TForm1
         Color = clMedGray
         ParentColor = False
         TabOrder = 0
-        ExplicitLeft = 10
         object ImageFiltered1: TImageFiltered
           Left = -2
           Top = 3
@@ -91,8 +87,6 @@ object Form1: TForm1
     object TabSheet2: TTabSheet
       Caption = 'Filtro'
       ImageIndex = 1
-      ExplicitWidth = 754
-      ExplicitHeight = 521
       object Panel2: TPanel
         Left = 0
         Top = 0
@@ -100,9 +94,6 @@ object Form1: TForm1
         Height = 442
         Align = alLeft
         TabOrder = 0
-        ExplicitLeft = -1
-        ExplicitTop = -2
-        ExplicitHeight = 521
         object GroupBox1: TGroupBox
           Left = 5
           Top = 5
@@ -806,7 +797,6 @@ object Form1: TForm1
         Color = clMedGray
         ParentColor = False
         TabOrder = 1
-        ExplicitTop = -2
         object Image1: TImage
           Left = 3
           Top = 3
@@ -836,8 +826,6 @@ object Form1: TForm1
         Alignment = taCenter
         Width = 50
       end>
-    ExplicitTop = 622
-    ExplicitWidth = 762
   end
   object ToolBar1: TToolBar
     Left = 0

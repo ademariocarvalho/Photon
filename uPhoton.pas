@@ -12,7 +12,7 @@ uses
   IniFiles;
 
 type
-  TForm1 = class(TForm)
+  TfrmPrincipal = class(TForm)
     OpenPictureDialog1: TOpenPictureDialog;
     MainMenu1: TMainMenu;
     A1: TMenuItem;
@@ -112,7 +112,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmPrincipal: TfrmPrincipal;
   //Bitmap: TBitmap;
   borda: TRect;
   cont: Integer;
@@ -122,13 +122,13 @@ var
 implementation
 
 {$R *.dfm}
-procedure TForm1.buscar_borda(img: TImage);
+procedure TfrmPrincipal.buscar_borda(img: TImage);
 var
   i, mx, my: Integer;
 begin
   mx := Trunc(img.Width / 2);
   my := Trunc(img.Height / 2);
-  Form1.Caption := 'Photon by Eletron [ mx:'+ IntToStr(mx) +'- my:'+ IntToStr(my)+']';
+  frmPrincipal.Caption := 'Photon by Eletron [ mx:'+ IntToStr(mx) +'- my:'+ IntToStr(my)+']';
   for i := 0 to img.Width do
   begin
     if img.Canvas.Pixels[i, my]=clWhite then
@@ -174,7 +174,7 @@ begin
   //Bitmap.Free;
 end;
 
-procedure TForm1.Abrir1Click(Sender: TObject);
+procedure TfrmPrincipal.Abrir1Click(Sender: TObject);
 begin
   { Execute an open picture dialog. }
   if OpenPictureDialog1.Execute then { First check if the file exists. }
@@ -188,7 +188,7 @@ begin
     raise Exception.Create('Arquivo não existente.');
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TfrmPrincipal.Button1Click(Sender: TObject);
 begin
   buscar_borda(ImageFiltered1);
   ShowMessage('Esq.: ' + IntToStr(borda.Left) + ' Sup.: '
@@ -196,7 +196,7 @@ begin
               + ' Inf.: '+ IntToStr(borda.Bottom) );
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
+procedure TfrmPrincipal.Button2Click(Sender: TObject);
 begin
   with ImageFiltered1.Canvas do
   begin
@@ -211,7 +211,7 @@ begin
   //(ImageFiltered1.Filters[3] as TCropFilter).Smooth:=True;
 end;
 
-procedure TForm1.Button3Click(Sender: TObject);
+procedure TfrmPrincipal.Button3Click(Sender: TObject);
 var
   c:TCropFilter;
 begin
@@ -268,7 +268,7 @@ begin
   ProgressBar1.Visible:=false;
 end;}
 
-procedure TForm1.Button5Click(Sender: TObject);
+procedure TfrmPrincipal.Button5Click(Sender: TObject);
 var
   lpdf : TPdfDocument;
   lpage : TPdfPage;
@@ -314,7 +314,7 @@ begin
   end;
 end;
 
-procedure TForm1.ButtonPen2Click(Sender: TObject);
+procedure TfrmPrincipal.ButtonPen2Click(Sender: TObject);
 var i : TInvertFilter;
 begin
   i:=TInvertFilter.Create(nil);
@@ -331,7 +331,7 @@ end;
   //ImageFiltered1.Transparent:=true;
 end;}
 
-procedure TForm1.CheckBox2Click(Sender: TObject);
+procedure TfrmPrincipal.CheckBox2Click(Sender: TObject);
 begin
   //ImageFiltered1.Filters.Item[0]=100;
     ImageFiltered1.Filters[0].Enabled:=CheckBox1.Checked;
@@ -346,19 +346,19 @@ begin
 
 end;
 
-procedure TForm1.edtLinhaChange(Sender: TObject);
+procedure TfrmPrincipal.edtLinhaChange(Sender: TObject);
 begin
   if edtLinha.Text <> '' then
     Edit5.Text :=IntToStr(StrToInt(edtLinha.Text) * StrToInt(edtColuna.Text));
 end;
 
-procedure TForm1.edtColunaChange(Sender: TObject);
+procedure TfrmPrincipal.edtColunaChange(Sender: TObject);
 begin
   if edtColuna.Text <> '' then
     Edit5.Text :=IntToStr(StrToInt(edtLinha.Text) * StrToInt(edtColuna.Text));
 end;
 
-procedure TForm1.FilterEditor1Click(Sender: TObject);
+procedure TfrmPrincipal.FilterEditor1Click(Sender: TObject);
 begin
   if ShowFiltersEditor(Self, ImageFiltered1.Picture.Graphic,
                        ImageFiltered1.Filters) then
@@ -367,7 +367,7 @@ begin
   end;
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
 var
   ArquivoINI: TIniFile;
   Mensagem : string;
@@ -392,7 +392,7 @@ begin
 
 end;
 
-procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TfrmPrincipal.Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
   var
     l, a : string;
@@ -406,7 +406,7 @@ begin
   StatusBar1.Panels.Items[1].Text:='('+ l +','+ a+')';
 end;
 
-procedure TForm1.ImageFiltered1MouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TfrmPrincipal.ImageFiltered1MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
   var
     l, a : string;
@@ -421,17 +421,17 @@ begin
 end;
 
 
-procedure TForm1.Sair1Click(Sender: TObject);
+procedure TfrmPrincipal.Sair1Click(Sender: TObject);
 begin
   Close();
 end;
 
-procedure TForm1.tbAbrirClick(Sender: TObject);
+procedure TfrmPrincipal.tbAbrirClick(Sender: TObject);
 begin
   Abrir1.Click();
 end;
 
-procedure TForm1.tbRecortarClick(Sender: TObject);
+procedure TfrmPrincipal.tbRecortarClick(Sender: TObject);
 var
   c:TCropFilter;
 begin
@@ -464,7 +464,7 @@ begin
   //Image1.Proportional := True;
 end;
 
-procedure TForm1.ToolButton1Click(Sender: TObject);
+procedure TfrmPrincipal.ToolButton1Click(Sender: TObject);
 var i : TReverseFilter;
 begin
   i:=TReverseFilter.Create(nil);
@@ -474,7 +474,7 @@ begin
   i.Free;
 end;
 
-procedure TForm1.ToolButton3Click(Sender: TObject);
+procedure TfrmPrincipal.ToolButton3Click(Sender: TObject);
 begin
   buscar_borda(ImageFiltered1);
   ShowMessage('Esq.: ' + IntToStr(borda.Left) + ' Sup.: '
@@ -482,12 +482,12 @@ begin
               + ' Inf.: '+ IntToStr(borda.Bottom) );
 end;
 
-procedure TForm1.ToolButton5Click(Sender: TObject);
+procedure TfrmPrincipal.ToolButton5Click(Sender: TObject);
 begin
   Close();
 end;
 
-procedure TForm1.tbInverterClick(Sender: TObject);
+procedure TfrmPrincipal.tbInverterClick(Sender: TObject);
 var i : TInvertFilter;
 begin
   i:=TInvertFilter.Create(nil);
@@ -497,7 +497,7 @@ begin
   i.Free;
 end;
 
-procedure TForm1.ToolButton6Click(Sender: TObject);
+procedure TfrmPrincipal.ToolButton6Click(Sender: TObject);
 begin
   with ImageFiltered1.Canvas do
   begin
@@ -512,7 +512,7 @@ begin
   //(ImageFiltered1.Filters[3] as TCropFilter).Smooth:=True;
 end;
 
-procedure TForm1.tbSuporteClick(Sender: TObject);
+procedure TfrmPrincipal.tbSuporteClick(Sender: TObject);
 var ArquivoINI: TIniFile;
 begin
   tbConfig.Enabled := not tbConfig.Enabled;
@@ -527,7 +527,7 @@ begin
   end;
 end;
 
-procedure TForm1.tbConfigClick(Sender: TObject);
+procedure TfrmPrincipal.tbConfigClick(Sender: TObject);
 begin
   cont := cont + 1;
 
