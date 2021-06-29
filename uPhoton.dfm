@@ -12,6 +12,7 @@ object frmPrincipal: TfrmPrincipal
   Font.Style = []
   Menu = MainMenu1
   OldCreateOrder = False
+  Position = poScreenCenter
   Touch.GestureManager = GestureManager1
   OnCreate = FormCreate
   PixelsPerInch = 96

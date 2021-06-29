@@ -9,7 +9,7 @@ uses
   Vcl.Taskbar, System.ImageList, Vcl.ImgList, VCLTee.TeCanvas, VCLTee.TeePenDlg,
   VCLTee.TeeFilters, VCLTee.TeeFiltersEditor, Vcl.Imaging.pngimage, Vcl.ToolWin,
   Vcl.StdActns, Vcl.ActnList, System.Actions, Vcl.Buttons, PngSpeedButton,
-  IniFiles, Vcl.ExtActns, Vcl.Touch.GestureMgr;
+  IniFiles, Vcl.ExtActns, Vcl.Touch.GestureMgr, Vcl.WinXCtrls;
 
 type
   TfrmPrincipal = class(TForm)
